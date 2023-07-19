@@ -181,12 +181,50 @@ console.log(OrtalamaGolSayisi(Finaller(fifaData)));
 		İpucu: "takım kısaltmaları" (team initials) için datada araştırma yapın!
 	İpucu: `.reduce` Kullanın*/
 
-function UlkelerinKazanmaSayilari(dizi, initial) {}
-console.log(UlkelerinKazanmaSayilari(fifaData, "ITA"));
+function UlkelerinKazanmaSayilari(dizi, initial) {
+  const finaller = dizi.filter((f) => f.Stage === "Final");
+  console.log(finaller);
+  const kazananlar = finaller.map((x) => {
+    if (x["Home Team Goals"] > x["Away Team Goals"]) {
+      return x["Home Team Initials"];
+    } else {
+      return x["Away Team Initials"];
+    }
+  });
+  console.log("kazananlardizi", kazananlar);
+  /* const kazanmaSayisi = kazananlar.reduce((toplam, mac) => {
+    if (mac === initial) {
+      return toplam + 1;
+    } else {
+      return toplam;
+    }
+  }, 0);
+
+  return kazanmaSayisi;
+} */
+
+  const kazanmaSayisi = kazananlar.filter((x) => x === initial).length;
+  return kazanmaSayisi;
+}
+console.log(
+  "UlkelerinKazanmaSayilari İTALYA",
+  UlkelerinKazanmaSayilari(fifaData, "ITA")
+);
 /*  BONUS 2:  
 	EnCokGolAtan() isminde bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupası finallerinde en çok gol atan takımı döndürsün */
 
-function EnCokGolAtan() {}
+function EnCokGolAtan(dizi) {
+  const finalMacGolleri = dizi
+    .filter((x) => x.Stage === "Final")
+    .map((x) => {
+      return {
+        [x["Home Team Initials"]]: x["Home Team Goals"],
+        [x["Away Team Initials"]]: x["Away Team Goals"],
+      };
+    });
+  console.log("finalMacGolleri", finalMacGolleri, "finalMacGolleri bitti");
+}
+console.log("BİTİREMEDİM ÇÜNKÜ ETÜTTE DE ANLAMADIM", EnCokGolAtan(fifaData));
 
 /*  BONUS 3: 
 	EnKotuDefans() adında bir fonksiyon yazın, `data` yı parametre olarak alsın ve Dünya kupasında finallerinde en çok golü yiyen takımı döndürsün*/
